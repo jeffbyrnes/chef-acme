@@ -3,7 +3,7 @@
 # Cookbook:: acme
 # Attribute:: default
 #
-# Copyright 2015-2018 Schuberg Philis
+# Copyright:: 2015-2018 Schuberg Philis
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,4 +25,3 @@ default['acme']['source_ips']  = %w(66.133.109.36 64.78.149.164)
 
 default['acme']['private_key'] = nil
 default['acme']['gem_version'] = '2.0.6'
-default['acme']['key_size']    = 2048

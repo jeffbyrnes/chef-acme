@@ -3,7 +3,7 @@
 # Cookbook:: acme
 # Library:: acme
 #
-# Copyright 2015-2018 Schuberg Philis
+# Copyright:: 2015-2018 Schuberg Philis
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -97,5 +97,5 @@ def self_signed_cert(cn, alts, key)
   cert.extensions += [ef.create_extension('subjectKeyIdentifier', 'hash')]
   cert.extensions += [ef.create_extension('subjectAltName', alts.map { |d| "DNS:#{d}" }.join(','))] unless alts.empty?
 
-  cert.sign key, OpenSSL::Digest::SHA256.new
+  cert.sign key, OpenSSL::Digest.new('SHA256')
 end

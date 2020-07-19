@@ -21,7 +21,6 @@ Attributes
 | renew          | Days before the certificate expires at which the certificate will be renewed                                                                                                   | 30                                               |
 | source_ips     | IP addresses used by Let's Encrypt to verify the TLS certificates, it will change over time. This attribute is for firewall purposes. Allow these IPs for HTTP (tcp/80).       | ['66.133.109.36']                                |
 | private_key    | Private key content of registered account. Private keys identify the ACME client with the endpoint and are not transferable between staging and production endpoints.          | nil                                              |
-| key_size       | Default private key size used when resource property is not. Must be one out of: 2048, 3072, 4096.                                                                             | 2048                                             |
 
 
 Recipes

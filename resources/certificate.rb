@@ -3,7 +3,7 @@
 # Cookbook:: acme
 # Resource:: certificate
 #
-# Copyright 2015-2018 Schuberg Philis
+# Copyright:: 2015-2018 Schuberg Philis
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,9 +31,9 @@ property :group,      String, default: 'root'
 
 property :wwwroot,    String, default: '/var/www'
 
-property :key_size,   Integer, default: lazy { node['acme']['key_size'] }, required: true, equal_to: [2048, 3072, 4096]
+property :key_size,   Integer, default: 2048, equal_to: [2048, 3072, 4096]
 
-property :dir,        [String, nil], default: nil
+property :dir,        [String, nil]
 property :contact,    Array, default: []
 
 property :chain, String, deprecated: 'The chain property has been deprecated as the acme-client gem now returns the full certificate chain by default (on the crt property.) Please update your cookbooks to remove this property.'
@@ -56,7 +56,7 @@ action :create do
     path      new_resource.key
     owner     new_resource.owner
     group     new_resource.group
-    mode      00400
+    mode      '400'
     content   OpenSSL::PKey::RSA.new(new_resource.key_size).to_pem
     sensitive true
     action    :nothing
@@ -82,7 +82,7 @@ action :create do
       directory ::File.dirname(tokenpath) do
         owner     new_resource.owner
         group     new_resource.group
-        mode      00755
+        mode      '755'
         recursive true
         action    :nothing
       end.run_action(:create)
@@ -90,7 +90,7 @@ action :create do
       file tokenpath do
         owner   new_resource.owner
         group   new_resource.group
-        mode    00644
+        mode    '644'
         content authz.file_content
         action  :nothing
       end.run_action(:create)
@@ -105,16 +105,16 @@ action :create do
       all_validations.push(authz)
     end
 
-    ruby_block "create certificate for #{new_resource.cn}" do # ~FC014
+    ruby_block "create certificate for #{new_resource.cn}" do
       block do
         unless (all_validations.map { |authz| authz.status == 'valid' }).all?
-          fail "[#{new_resource.cn}] Validation failed, unable to request certificate"
+          raise "[#{new_resource.cn}] Validation failed, unable to request certificate"
         end
 
         begin
           newcert = acme_cert(order, new_resource.cn, mykey, new_resource.alt_names)
         rescue Acme::Client::Error => e
-          fail "[#{new_resource.cn}] Certificate request failed: #{e.message}"
+          raise "[#{new_resource.cn}] Certificate request failed: #{e.message}"
         else
           Chef::Resource::File.new("#{new_resource.cn} SSL new crt", run_context).tap do |f|
             f.path    new_resource.crt
