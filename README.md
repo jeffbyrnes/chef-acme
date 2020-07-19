@@ -1,5 +1,4 @@
-ACME cookbook
-=============
+# ACME cookbook
 
 [![Build Status](https://travis-ci.org/schubergphilis/chef-acme.svg)](https://travis-ci.org/schubergphilis/chef-acme)
 [![Cookbook Version](https://img.shields.io/cookbook/v/acme.svg)](https://supermarket.chef.io/cookbooks/acme)
@@ -11,8 +10,7 @@ ACME is the [Automated Certificate Management Environment protocol][1] used by [
 Starting with v4.0.0 of the acme cookbook the acme_ssl_certificate provider has been removed! The TLS-SNI-01 validation method used by this provider been disabled by Let's Encrypt due to security concerns. Please switch to the acme_certificate provider in this cookbook to request and renew your certificate using the supported HTTP-01 validation method.
 ```
 
-Attributes
-----------
+## Attributes
 
 | Attribute      | Description                                                                                                                                                                    | Default                                          |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------       | --------------------------------------:          |
@@ -22,14 +20,14 @@ Attributes
 | source_ips     | IP addresses used by Let's Encrypt to verify the TLS certificates, it will change over time. This attribute is for firewall purposes. Allow these IPs for HTTP (tcp/80).       | ['66.133.109.36']                                |
 | private_key    | Private key content of registered account. Private keys identify the ACME client with the endpoint and are not transferable between staging and production endpoints.          | nil                                              |
 
+## Recipes
 
-Recipes
--------
 ### default
+
 Installs the required acme-client rubygem.
 
-Usage
------
+## Usage
+
 Use the `acme_certificate` resource to request a certificate with the http-01 challenge. The webserver for the domain for which you are requesting a certificate must be running on the local server. This resource only supports the http validation method. To use the tls-sni-01 challenge, please see the resource below. Provide the path to your `wwwroot` for the specified domain.
 
 ```ruby
@@ -50,12 +48,12 @@ acme_selfsigned 'test.example.com' do
 end
 ```
 
-
 A working example can be found in the included `acme_client` test cookbook.
 
-Providers
----------
+## Resources
+
 ### certificate
+
 | Property            | Type    | Default  | Description                                            |
 |  ---                |  ---    |  ---     |  ---                                                   |
 | `cn`                | string  | _name_   | The common name for the certificate                    |
@@ -73,6 +71,7 @@ Providers
 | `contact`           | array   | []       | The contact to use                                     |
 
 ### selfsigned
+
 | Property         | Type    | Default  | Description                                            |
 |  ---             |  ---    |  ---     |  ---                                                   |
 | `cn`             | string  | _name_   | The common name for the certificate                    |
@@ -83,8 +82,8 @@ Providers
 | `owner`          | string  | root     | Owner of the created files                             |
 | `group`          | string  | root     | Group of the created files                             |
 
-Example
--------
+## Example
+
 To generate a certificate for an apache2 website you can use code like this:
 
 ```ruby
@@ -121,12 +120,12 @@ acme_certificate "#{site}" do
 end
 ```
 
-Testing
--------
+## Testing
+
 The kitchen includes a `pebble` server to run the integration tests with, so testing can run locally without interaction with the online APIs.
 
-Contributing
-------------
+## Contributing
+
 1. Fork the repository on Github
 2. Create a named feature branch (like `add_component_x`)
 3. Write your change
@@ -134,12 +133,12 @@ Contributing
 5. Run the tests, ensuring they all pass
 6. Submit a Pull Request using Github
 
-License and Authors
--------------------
+## License and Authors
+
 Authors: Thijs Houtenbos <thoutenbos@schubergphilis.com>
 
-Credits
--------
+## Credits
+
 Let’s Encrypt is a trademark of the Internet Security Research Group. All rights reserved.
 
 [1]: https://ietf-wg-acme.github.io/acme/
