@@ -11,6 +11,7 @@ verifier:
 provisioner:
   name: chef_zero
   always_update_cookbooks: true
+  chef_license: accept
 
 platforms:
   - name: centos-7
