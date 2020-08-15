@@ -20,7 +20,7 @@
 
 # Work around an NGINX issue on CentOS
 # https://github.com/chef-cookbooks/nginx/issues/441
-yum_package 'openssl' do
+package 'openssl' do
   action :upgrade
   only_if { platform_family?('rhel') }
 end
