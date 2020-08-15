@@ -3,3 +3,13 @@ driver:
   name: digitalocean
   private_networking: false
   size: 2gb
+
+platforms:
+  - name: centos-7
+  - name: ubuntu-16
+    attributes:
+      nginx:
+        install_method: source
+  - name: centos-8
+  - name: ubuntu-18
+  - name: ubuntu-20
